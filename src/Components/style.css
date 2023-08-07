@@ -1,0 +1,66 @@
+.form_container{
+width: 30%;
+
+}
+.BlogCreatewidth{
+    width: 50%;
+    
+}
+.rightContent{
+    width: 80%;
+    text-align: left;
+}
+.leftContent{
+    width: 20%;
+ }
+.inputComment{
+
+ max-width: 400px;
+
+}
+
+.commentClass{
+    width: 650px;
+}
+.commentClassInside{
+    max-width: 450px;
+    word-wrap: break-word;
+}
+
+.leftText{
+margin-top:20px;
+text-align: start
+
+}
+
+.bg-img{
+
+ background-image: url("https://www.w3schools.com/html/pic_trulli.jpg");
+
+
+ min-height: 380px;
+
+ 
+ background-position: center;
+ background-repeat: no-repeat;
+ background-size: cover;
+ position: relative;
+
+}
+.ImageBlog{
+
+    /* width: 18rem; */
+    height: 40%;
+    align-items:center;
+  }
+@media screen and (max-width: 1000px) {
+    .form_container{
+        width: 45%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .form_container{
+        width: 65%;
+    }
+}

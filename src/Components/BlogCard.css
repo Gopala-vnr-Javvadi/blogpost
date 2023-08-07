@@ -1,0 +1,80 @@
+.box-header.with-border {
+    border-bottom: 1px solid #f4f4f4;
+}
+.box-header {
+    color: #444;
+    display: block;
+    padding: 10px;
+    position: relative;
+} 
+
+.user-block img {
+    width: 40px;
+    height: 40px;
+    float: left;
+}
+.user-block .username {
+    font-size: 16px;
+    font-weight: 600;
+}
+.user-block .description {
+    color: #999;
+    font-size: 13px;
+}
+.user-block .username, 
+.user-block .description, 
+.user-block .comment {
+    display: block;
+    margin-left: 50px;
+}
+.img-sm, 
+.box-comments .box-comment img, 
+.user-block.user-block-sm img {
+    width: 30px !important;
+    height: 30px !important;
+}
+.img-sm, .img-md, 
+.img-lg, .box-comments .box-comment img, 
+.user-block.user-block-sm img {
+    float: left;
+}
+.box-comments .username {
+    color: #444;
+    display: block;
+    font-weight: 600;
+}
+.box-header>.box-tools {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
+.btn-box-tool {
+    padding: 5px;
+    font-size: 12px;
+    background: transparent;
+    color: #97a0b3;
+}
+ body{
+    margin-top:20px;
+    background-color: #ecf0f5;
+}
+
+.ImageBlogCard{
+
+    width: auto;
+    height: auto;
+    align-items:center;
+  }
+  
+  @media screen and (max-width: 1000px) {
+    .form_container{
+        width: 45%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .form_container{
+        width: 65%;
+    }
+}
+  
