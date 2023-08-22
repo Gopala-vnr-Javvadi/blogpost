@@ -3,7 +3,9 @@ import { Link, useNavigate  } from 'react-router-dom';
 import axios from 'axios';
 import './style.css' 
 import '../App';
-import $ from 'jquery';
+import { ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { urlLogin } from "./Config";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -38,25 +40,21 @@ const Login = () => {
             )
             return
           }
-      
 
-
-
-
-        const apiUrl = "https://localhost:7086/api/Login";
         const data = { EmailAddress: email.toLowerCase(), password: password };
-        axios.post(apiUrl, data)
+        axios.post(urlLogin, data)
             .then((result) => {
                 debugger;
                 console.log(result.data);
                 const serializedState = JSON.stringify(result.data);
-                localStorage.setItem('myData', serializedState);
+                localStorage.setItem('MyToken', result.data);
                 localStorage.setItem("loginName", email);
+                const profileName = localStorage.getItem('loginName').split('@')[0];
+                localStorage.setItem("profileName", profileName);
                 if (result.status == 200) {
                     setUser(result.data);
                     localStorage.setItem('user', result.data);
                     navigate("/Dashboard");
-                   //navigate("/DashboardTiles"); 
                 }
                 else {
                     alert('Invalid User');
@@ -72,6 +70,7 @@ const Login = () => {
             }); 
     };
     return (
+        <>
         <div className="login template d-flex justify-content-center align-items-center vh-100 bg-primary">
           <div className="form_container p-5 rounded bg-white">
             <form onSubmit={handleLogin}>
@@ -99,9 +98,13 @@ const Login = () => {
                    <p className="text-end mt-2">
                         Forgot <a href="" >Password</a><Link to="/signup"className="ms-2">SignUp</Link>
                    </p>
+                 
             </form>
-          </div>
+           </div>
+           <ToastContainer/>
         </div>
+      
+        </>
     );
 };
 

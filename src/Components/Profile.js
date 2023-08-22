@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react'
-import { Link ,useNavigate} from 'react-router-dom';
-import axios from 'axios';
-
+import {useNavigate} from 'react-router-dom';
+import {urlLoginProfile}  from "./Config";
 function Profile() {
 
 
@@ -12,7 +11,7 @@ function Profile() {
     const [profile,SetProfile] =useState([]);
     const emailID = localStorage.getItem('loginName');
     const loginProfile = localStorage.getItem('loginprofileImage');
-
+    const token = localStorage.getItem('MyToken');
     const[data,setData] = useState({
         fname :'',lName :'',email:'', password:'', role :'',phno:'',profileImage:''
        });
@@ -59,8 +58,7 @@ function Profile() {
 
     const handleSignUp = async e => {
 
-            e.preventDefault();      
-            const apiUrl = "https://localhost:7086/api/User/UpdateUser";   
+            e.preventDefault();       
             const dataSingup = { Username:data.fName, Password: data.password ,EmailAddress :data.email,
               Role:data.role,Surname:data.lName,PhoneNumber:data.phno,File:file};
          //    axios.post(apiUrl, dataSingup)    
@@ -73,9 +71,10 @@ function Profile() {
          formData.append('Role', data.role);
          formData.append('Surname', data.lName);
          formData.append('PhoneNumber',data.phno);
-         fetch(apiUrl, {
+         fetch(urlLoginProfile, {
              method: 'POST',
              body: formData,
+             headers: {Authorization: `Bearer ${token}`}
          })
                 .then((result) => {     
                     console.log(result.data);   
@@ -100,7 +99,9 @@ function Profile() {
     useEffect(() => {     
          
         const apiUrlGetBlogs = `https://localhost:7086/api/BlogPosts/MyProfile?email=${encodeURIComponent(emailID)}`;
-        fetch(apiUrlGetBlogs)
+        fetch(apiUrlGetBlogs, {
+          headers: {Authorization: `Bearer ${token}`}
+        })
             .then(response => { return response.json() })
             .then(responseJson => {
                 debugger
@@ -113,7 +114,7 @@ function Profile() {
                 d.fname = responseJson.username
                 setData(d)
             
-                localStorage.setItem('loginprofileImage',responseJson.imageUrl);
+                //localStorage.setItem('loginprofileImage',responseJson.imageUrl);
             }).catch((error) => {
              console.log("Error=>", error);
                 if (error.response.data == "User not found") {

@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { Link ,useNavigate} from 'react-router-dom';
 import axios from 'axios';
-
+import {urlSignUp}  from "./Config";
 
 
 function SignUp() {
@@ -81,7 +81,7 @@ function SignUp() {
      //    type :"image/png"
      //    webkitRelativePath: ""
 
-        const apiUrl = "https://localhost:7086/api/User/CreateNewUser";   
+       
         const dataSingup = { Username:data.fName, Password: data.password ,EmailAddress :data.email.toLowerCase(),
           Role:data.role,Surname:data.lName,PhoneNumber:data.phno,File:file};
      //    axios.post(apiUrl, dataSingup)    
@@ -95,9 +95,10 @@ function SignUp() {
      formData.append('Role', data.role);
      formData.append('Surname', data.lName);
      formData.append('PhoneNumber',data.phno);
-     fetch(apiUrl, {
+     fetch(urlSignUp, {
          method: 'POST',
          body: formData,
+         
      })
             .then((result) => {     
                 console.log(result.data);   

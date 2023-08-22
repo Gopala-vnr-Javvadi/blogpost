@@ -1,0 +1,10 @@
+export const  baseUrl = "https://localhost:7086/";
+export const urlLogin =   baseUrl +"api/Login";
+export const urlGetBlogId  = baseUrl +'api/BlogPosts/GetMyBlogById?BlogId=';
+export const urlGetComments = baseUrl + `api/BlogPosts/GetComments?BlogId=`;
+export const urlCreateComment = baseUrl + "api/BlogPosts/CreateComment";
+export const urlGetBlogs = baseUrl + "api/BlogPosts";
+export const urlGetProfile = baseUrl + `api/BlogPosts/MyProfile?email=`;
+export const urlGetMyBlogs = baseUrl + `api/BlogPosts/MyBlogs?email=`;
+export const urlLoginProfile = baseUrl + "api/User/UpdateUser";   
+export const urlSignUp = baseUrl + "api/User/CreateNewUser";   

@@ -7,15 +7,14 @@ import {Data ,dataLoader} from './Components/Data';
 import Contact from './Components/Contact';
 import { Link } from "react-router-dom"
 import Login from './Components/Login';
-import Error from './Components/Error';
-import Logout from './Components/Logout';
 import Protected from './Components/Protected';
 import SignUp from './Components/SignUp';
 import BlogCard from './Components/BlogCard';
 import CreateBlog from './Components/CreateBlog';
 import MyBlogs from './Components/MyBlogs';
 import Profile from './Components/Profile';
-import DashboardTiles from './Components/DashboardTiles';
+
+
 const App =(props)=> {
 
    var [isSignedIn, setIsSignedIn] = useState(null)
@@ -41,7 +40,7 @@ const App =(props)=> {
                 {/* <Route path="/Logout"  element={<Protected ><Logout/> </Protected>}/> */}
                 <Route path="/BlogCard"  element={<BlogCard/>}/>
                 <Route path="/Profile"  element={<Profile/>}/>
-                <Route path="/DashboardTiles"  element={<DashboardTiles/>}/>
+             
                 {/* <Route path="*"  element={<Error/>}/> */}
               
               </Route> 

@@ -4,16 +4,17 @@ import axios from 'axios';
 
 const CreateBlog = () => {
 
-
+    const token = localStorage.getItem('MyToken');
     const navigater = useNavigate();
 
      const CreateNewBlog = () => {
         localStorage.clear('user');
-        navigater('../Login');
+        navigater('/CreateBlog');
      }
-
+     
     const [user, setUser] = useState()
     const loginName =localStorage.getItem('loginName');
+    const profileName = localStorage.getItem('profileName');
     const[data,setData] = useState({
         title :'',email :'',content:'',category:'', file:'', ImageUrl:'',CreatedBy:'',
        });
@@ -97,6 +98,7 @@ const CreateBlog = () => {
     fetch('https://localhost:7086/api/BlogPosts/File', {
         method: 'POST',
         body: formData,
+        headers: {Authorization: `Bearer ${token}`}
     }).then((response) => response.json())
         .then((data) => {
             debugger;
@@ -127,15 +129,13 @@ const CreateBlog = () => {
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
-                            <a class="navbar-brand" href="#">Hi {loginName},</a>
+                            <a class="navbar-brand" href="#">Hi {profileName},</a>
                             <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
                                         <a class="nav-link active" onClick={MyBlogs} aria-current="page" href="#">My Blogs</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#" onClick={CreateNewBlog}>Create Blog</a>
-                                    </li>
+                                    
                                     <li class="nav-item">
                                         <a class="nav-link" href="#" onClick={Logout}>Logout</a>
                                     </li>
@@ -143,7 +143,7 @@ const CreateBlog = () => {
                                     <nav class="nav navbar-nav navbar-right">
                                         <div class="container">
                                             <a class="navbar-brand" href="#">
-                                                <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" />
+                                                <img src={profileImage} alt="" width="30" height="24" />
                                             </a>
                                         </div>
                                     </nav>

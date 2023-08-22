@@ -6,21 +6,18 @@ import BlogCard from './BlogCard';
 import CreateBlog from './CreateBlog';
 import axios from 'axios';
 import { useContext } from 'react';
-
+import {urlGetMyBlogs}  from "./Config";
 const MyBlogs = () => {
     const navigater = useNavigate();
+    const profileName = localStorage.getItem('profileName');
     const loginName = localStorage.getItem('loginName');
     const [blogs, setBlogsData] = useState([]);
     const [comment, setComment] = useState([null]);
+    const token = localStorage.getItem('MyToken');
+    const profileImage = localStorage.getItem('loginprofileImage');
+    
 
-
-    const Logout = () => {
-        const person = prompt("Logout Popup", "Are you want to Logout ?");
-        if (person != null) {
-            localStorage.clear('user');
-            navigater('/Login');
-        }
-    }
+   
 
     const CreateNewBlog = () => {
         navigater('/CreateBlog')
@@ -28,12 +25,21 @@ const MyBlogs = () => {
 
 
     useEffect(() => {
-    //  const emailId =  {BlogId:item.blogId};
-        const apiUrlGetBlogs = `https://localhost:7086/api/BlogPosts/MyBlogs?email=${encodeURIComponent(loginName)}`;
-        fetch(apiUrlGetBlogs)
+        const getMyBlogs = urlGetMyBlogs +`${encodeURIComponent(loginName)}`;
+        fetch(getMyBlogs, {
+            headers: {Authorization: `Bearer ${token}`}
+          })
             .then(Response => { return Response.json() })
             .then(ResponseJson => {
                 setBlogsData(ResponseJson)
+                ResponseJson.forEach(element => {
+                    if(element.title.length >10){
+                        element.title = element.title.substring(0, 10) + "......";
+                    }
+                    if (element.content.length > 25)
+                        element.content = element.content.substring(0, 25) + "......";
+                });
+
             })
     }, []);
      
@@ -45,15 +51,17 @@ const MyBlogs = () => {
         navigater('/Dashboard');
     }  
     
-
+    const Profile = () => {
+        navigater('/Profile');
+    }
+    const Logout = () => {
+        const person = prompt("Logout Popup", "Are you want to Logout ?");
+        if (person != null) {
+            localStorage.clear('user');
+            navigater('/Login');
+        }
+    }
     const specificBlogCard = (item) => {
-        // const BlogId =  {BlogId:item.blogId};
-        // const apiUrlComments = `https://localhost:7086/api/BlogPosts/GetComments?BlogId=${encodeURIComponent(BlogId.BlogId)}`;   
-        // fetch(apiUrlComments)
-        // .then(Response =>{return Response.json()})
-        // .then(ResponseJson =>{
-        //     setComment(ResponseJson)
-        // })
         navigater('/BlogCard', { state: { data: item } });
 
     }
@@ -68,7 +76,7 @@ const MyBlogs = () => {
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
-                            <a class="navbar-brand" href="#">Hi {loginName},</a>
+                            <a class="navbar-brand" href="#">Hi {profileName},</a>
                             <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
@@ -93,13 +101,22 @@ const MyBlogs = () => {
                                     {/* <li class="nav-item float-end">
           <a class="nav-link" href="#"><a class="nav-link" href="#"> <img src="..." class="rounded-circle" alt="..."></img></a></a>
         </li> */}
-                                    <nav class="nav navbar-nav navbar-right">
+                                     <li className="nav-item dropdown">
+                                        <a className="nav-link dropdown-toggle " src={profileImage} href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src={profileImage} onClick={Profile} alt="" title="Click Profile" width="30" height="24" />
+                                        </a>
+                                        <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                            <li><a className="dropdown-item" onClick={Profile} href="#">Profile</a></li>
+                                            <li><a className="dropdown-item" onClick={Logout} href="#">Logout</a></li>    
+                                        </ul>
+                                    </li>
+                                    {/* <nav class="nav navbar-nav navbar-right">
                                         <div class="container">
                                             <a class="navbar-brand" href="#">
-                                                <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" />
+                                                <img src={profileImage} alt="" width="30" height="24" />
                                             </a>
                                         </div>
-                                    </nav>
+                                    </nav> */}
 
                                 </ul>
                             </div>
@@ -107,27 +124,26 @@ const MyBlogs = () => {
                     </nav>
 
 
-                    <h1 className='title'>All Blogs</h1>
-                    <div>
-                        {/* <div className='float'><CreateBlog/>&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                  <div className='float-end'><Logout/></div><br/><br/> */}
+                    <h1 className='title'>My Blogs</h1>
+                    <div className='cards'>
+                        {
+                            blogs.map((item, i) => (
+
+                                <div key={i} className='carde' onClick={() => specificBlogCard(item)}>
+                                    <img src={item.image} className="carde-img-top ImageBlog" alt="..." />
+                                    <div className='carde-title'><h3>{item.title}</h3></div>
+                                    <div className='carde-content'><p>{item.content}</p></div>
+                                    <div className='carde-btn'>
+                                        <button className='btn' onClick={() => specificBlogCard(item)}>Explore</button>
+
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
 
-
-                    <tbody>{
-                        blogs.map((item) => (
-
-                            <div className="card mx-auto" onClick={() => specificBlogCard(item)}  >
-                                <img src={item.image} width={50} height={100} className="card-img-top ImageBlog" alt="..." />
-                                <div className="card-body">
-                                    <h5 className="card-title">{item.title}</h5>
-                                    <p className="card-text"  >{item.content}</p>
-                                    {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
-                                </div>
-                            </div>
-                        ))
-                    }
-                    </tbody>
+                       
+                   
                 </div>
             </div>
         </>
